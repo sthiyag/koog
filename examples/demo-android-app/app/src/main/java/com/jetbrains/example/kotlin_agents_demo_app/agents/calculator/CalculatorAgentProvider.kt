@@ -10,8 +10,8 @@ import ai.koog.agents.core.tools.Tool
 import ai.koog.agents.core.tools.ToolRegistry
 import ai.koog.agents.local.features.eventHandler.feature.handleEvents
 import ai.koog.prompt.dsl.prompt
-import ai.koog.prompt.executor.clients.openai.OpenAIModels
-import ai.koog.prompt.executor.llms.all.simpleOpenAIExecutor
+import ai.koog.prompt.executor.clients.google.GoogleModels
+import ai.koog.prompt.executor.llms.all.simpleGoogleAIExecutor
 import com.jetbrains.example.kotlin_agents_demo_app.agents.common.AgentProvider
 import com.jetbrains.example.kotlin_agents_demo_app.agents.common.ExitTool
 import com.jetbrains.example.kotlin_agents_demo_app.settings.AppSettings
@@ -29,10 +29,10 @@ object CalculatorAgentProvider : AgentProvider {
         onErrorEvent: suspend (String) -> Unit,
         onAssistantMessage: suspend (String) -> String,
     ): AIAgent {
-        val openAiToken = appSettings.getCurrentSettings().openAiToken
-        require(openAiToken.isNotEmpty()) { "OpenAI token is not configured." }
+        val googleToken = appSettings.getCurrentSettings().googleToken
+        require(googleToken.isNotEmpty()) { "Google token is not configured." }
 
-        val executor = simpleOpenAIExecutor(openAiToken)
+        val executor = simpleGoogleAIExecutor(googleToken)
 
         // Create tool registry with calculator tools
         val toolRegistry = ToolRegistry {
@@ -110,7 +110,7 @@ object CalculatorAgentProvider : AgentProvider {
                     """.trimIndent()
                 )
             },
-            model = OpenAIModels.Chat.GPT4o,
+            model = GoogleModels.Gemini2_5ProPreview0506,
             maxAgentIterations = 50
         )
 

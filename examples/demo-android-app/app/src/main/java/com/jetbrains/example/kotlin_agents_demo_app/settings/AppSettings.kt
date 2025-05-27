@@ -15,7 +15,8 @@ private val Context.settingsDataStore: DataStore<Preferences> by preferencesData
 // Data stored in the settings
 data class AppSettingsData(
     val openAiToken: String,
-    val anthropicToken: String
+    val anthropicToken: String,
+    val googleToken: String = ""
 )
 
 /**
@@ -27,6 +28,7 @@ class AppSettings(private val context: Context) {
     companion object {
         val OPENAI_TOKEN_KEY = stringPreferencesKey("openai_token")
         val ANTHROPIC_TOKEN_KEY = stringPreferencesKey("anthropic_token")
+        val GOOGLE_TOKEN_KEY = stringPreferencesKey("google_token")
     }
 
 
@@ -34,7 +36,8 @@ class AppSettings(private val context: Context) {
         return context.settingsDataStore.data.map { preferences ->
             AppSettingsData(
                 openAiToken = preferences[OPENAI_TOKEN_KEY].orEmpty(),
-                anthropicToken = preferences[ANTHROPIC_TOKEN_KEY].orEmpty()
+                anthropicToken = preferences[ANTHROPIC_TOKEN_KEY].orEmpty(),
+                googleToken = preferences[GOOGLE_TOKEN_KEY].orEmpty()
             )
         }.first()
     }
@@ -43,6 +46,7 @@ class AppSettings(private val context: Context) {
         context.settingsDataStore.edit { preferences ->
             preferences[OPENAI_TOKEN_KEY] = settings.openAiToken
             preferences[ANTHROPIC_TOKEN_KEY] = settings.anthropicToken
+            preferences[GOOGLE_TOKEN_KEY] = settings.googleToken
         }
     }
 }

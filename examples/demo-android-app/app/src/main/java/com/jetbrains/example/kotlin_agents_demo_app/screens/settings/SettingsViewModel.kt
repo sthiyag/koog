@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 data class SettingsUiState(
     val openAiToken: String = "",
     val anthropicToken: String = "",
+    val googleToken: String = "",
     val isLoading: Boolean = true
 )
 
@@ -41,6 +42,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             _uiState.value = SettingsUiState(
                 openAiToken = settings.openAiToken,
                 anthropicToken = settings.anthropicToken,
+                googleToken = settings.googleToken,
                 isLoading = false
             )
         }
@@ -61,6 +63,13 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
+     * Update Google token in the UI state
+     */
+    fun updateGoogleToken(token: String) {
+        _uiState.value = _uiState.value.copy(googleToken = token)
+    }
+
+    /**
      * Save settings to AppSettings
      */
     fun saveSettings() {
@@ -70,7 +79,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             appSettings.setCurrentSettings(
                 AppSettingsData(
                     openAiToken = currentSettingsState.openAiToken,
-                    anthropicToken = currentSettingsState.anthropicToken
+                    anthropicToken = currentSettingsState.anthropicToken,
+                    googleToken = currentSettingsState.googleToken
                 )
             )
         }

@@ -25,8 +25,10 @@ fun SettingsScreen(
     SettingsScreenContent(
         openAiToken = uiState.openAiToken,
         anthropicToken = uiState.anthropicToken,
+        googleToken = uiState.googleToken,
         onOpenAiTokenChange = viewModel::updateOpenAiToken,
         onAnthropicTokenChange = viewModel::updateAnthropicToken,
+        onGoogleTokenChange = viewModel::updateGoogleToken,
         onNavigateBack = onNavigateBack,
         onSaveSettings = {
             viewModel.saveSettings()
@@ -40,8 +42,10 @@ fun SettingsScreen(
 private fun SettingsScreenContent(
     openAiToken: String,
     anthropicToken: String,
+    googleToken: String = "",
     onOpenAiTokenChange: (String) -> Unit,
     onAnthropicTokenChange: (String) -> Unit,
+    onGoogleTokenChange: (String) -> Unit = {},
     onNavigateBack: () -> Unit,
     onSaveSettings: () -> Unit
 ) {
@@ -119,6 +123,23 @@ private fun SettingsScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
+
+            Spacer(modifier = Modifier.height(AppDimension.spacingMedium))
+
+            OutlinedTextField(
+                value = googleToken,
+                onValueChange = onGoogleTokenChange,
+                label = { Text("Google Token", color = MaterialTheme.colorScheme.primary) },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    cursorColor = MaterialTheme.colorScheme.primary
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
         }
     }
 }
@@ -131,8 +152,10 @@ fun SettingsScreenContentPreview() {
         SettingsScreenContent(
             openAiToken = "sample-token",
             anthropicToken = "sample-token",
+            googleToken = "sample-google-token",
             onOpenAiTokenChange = {},
             onAnthropicTokenChange = {},
+            onGoogleTokenChange = {},
             onNavigateBack = {},
             onSaveSettings = {}
         )
