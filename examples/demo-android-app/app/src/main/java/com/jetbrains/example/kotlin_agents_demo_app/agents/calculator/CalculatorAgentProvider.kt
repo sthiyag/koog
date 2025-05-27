@@ -110,7 +110,7 @@ object CalculatorAgentProvider : AgentProvider {
                     """.trimIndent()
                 )
             },
-            model = GoogleModels.Gemini2_5ProPreview0506,
+            model = GoogleModels.Gemini2_0Flash,
             maxAgentIterations = 50
         )
 
